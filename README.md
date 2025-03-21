@@ -1,4 +1,4 @@
-﻿# Introdução  
+# Introdução  
 
 Bem-vindo ao teste técnico da Thunders! 🚀 
 
@@ -56,3 +56,17 @@ Alguns componentes foram criados e disponibilizados para facilitar a implementa�
 
 - Interface ‘IMessageSender’ do projeto OutOfBox: permite o envio de mensagens para o broker. 
 - Features: para habilitar o uso de Mensageria ou Entity Framework através do padrão de configurações do .NET 
+
+
+Com as novas configurações:
+
+Rode primeiro as migrates:
+
+Se certifique que esteja no projeto ApiService e que o serviço de banco de dados esteja rodando.
+
+dotnet ef migrations add InitialCreate --context DefaultContext --project ../Thunders.TechTest.Infrastructure --startup-project .
+
+
+dotnet ef database update --context DefaultContext --project ../Thunders.TechTest.Infrastructure --startup-project .
+
+Depois desta pré configuração os endpoints estaram OK
