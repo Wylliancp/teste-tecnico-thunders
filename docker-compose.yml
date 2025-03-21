@@ -1,0 +1,26 @@
+﻿services:
+  thunders.techtest.apiservice:
+    image: thunders.techtest.apiservice
+    build:
+      context: .
+      dockerfile: Thunders.TechTest.ApiService/Dockerfile
+      
+  thunders.techtest.database:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: thunders
+      POSTGRES_PASSWORD: thunders
+      POSTGRES_DB: tollDB
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    
+  thunders.techtest.sqlserver:
+    image: mcr.microsoft.com/azure-sql-edge
+    environment:
+      SA_PASSWORD: "YourStrong!Passw0rd"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    restart: unless-stopped
+
