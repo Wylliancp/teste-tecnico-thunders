@@ -38,12 +38,6 @@ if (features.UseMessageBroker)
 
 if (features.UseEntityFramework)
 {
-    // builder.Services.AddDbContext<DefaultContext>((options) =>
-    // {
-    //     options.UseSqlServer(builder.Configuration.GetConnectionString("ThundersTechTestDb"),                    
-    //         b => b.MigrationsAssembly("Thunders.TechTest.infrastructure")
-    //     );
-    // });
     builder.Services.AddDbContext<DefaultContext>((options) =>
     {
         options.UseNpgsql(builder.Configuration.GetConnectionString("ThundersTechTestDbPostgres"),                    
