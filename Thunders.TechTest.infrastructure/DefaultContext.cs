@@ -8,7 +8,7 @@ namespace Thunders.TechTest.infrastructure;
 
 public class DefaultContext : DbContext
 {
-    public DbSet<Toll> Tolls { get; set; }
+    public DbSet<Toll?> Tolls { get; set; }
 
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
     {

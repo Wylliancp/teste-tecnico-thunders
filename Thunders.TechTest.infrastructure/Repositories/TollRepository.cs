@@ -13,7 +13,7 @@ public class TollRepository : ITollRepository
         _context = context;
     }
 
-    public async Task<Toll> CreateAsync(Toll toll, CancellationToken cancellationToken = default)
+    public async Task<Toll?> CreateAsync(Toll? toll, CancellationToken cancellationToken = default)
     {
         await _context.Tolls.AddAsync(toll, cancellationToken);
         await _context.SaveChangesAsync(cancellationToken);
@@ -37,13 +37,28 @@ public class TollRepository : ITollRepository
 
     public async Task<List<Toll>?> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        return await _context.Tolls.AsQueryable().ToListAsync(cancellationToken);
+        return (await _context.Tolls.AsQueryable().ToListAsync(cancellationToken))!;
     }
 
-    public async Task<Toll?> UpdateAsync(Toll toll, CancellationToken cancellationToken = default)
+    public async Task<Toll?> UpdateAsync(Toll? toll, CancellationToken cancellationToken = default)
     {
         _context.Tolls.Update(toll);
         await _context.SaveChangesAsync(cancellationToken);
         return toll;
         }
+
+    public async Task<decimal> TotalValueByState(string state, CancellationToken cancellationToken = default)
+    {
+        return await _context.Tolls.Where(x => x.State == state).SumAsync(x => x.County, cancellationToken: cancellationToken);
     }
+
+    public async Task<Toll?> RankingBillingPlacesMonth(DateTime month, CancellationToken cancellationToken = default)
+    {
+        return await _context.Tolls.Where(x=> x.dateCreate.Month == month.Month).OrderByDescending(x=> x.County).FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public Task<int> QuantityVehiclesByPlaces(string places, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+}
