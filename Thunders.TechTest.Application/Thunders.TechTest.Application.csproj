@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Thunders.TechTest.Domain\Thunders.TechTest.Domain.csproj" />
+      <ProjectReference Include="..\Thunders.TechTest.infrastructure\Thunders.TechTest.infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>

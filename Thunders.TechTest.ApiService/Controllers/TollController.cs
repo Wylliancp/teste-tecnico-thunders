@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Thunders.TechTest.Application.Commands.Toll;
 using Thunders.TechTest.Application.Handlers.Toll;
+using Thunders.TechTest.Application.Queries;
 using Thunders.TechTest.Application.Queries.Toll;
 using Thunders.TechTest.Domain.Commands;
 using Thunders.TechTest.Domain.Queries;
@@ -58,25 +59,31 @@ public class TollController(ILogger<TollController> logger) : ControllerBase
     [Route("TotalValueByState")]
     [HttpGet]
 
-    public async Task<IQueryResult> GetTotalValueByState([FromQuery] GetTotalValueByStateQuery query, [FromServices] TollQueryHandler handler)
+    public async Task<IResult> GetTotalValueByState([FromQuery] GetTotalValueByStateQuery query, [FromServices] TollQueryHandler handler)
     {
-        return await handler.Handle(query);
+        var result = await handler.Handle(query);
+        var retorno = (GenericResultQuery)result;
+        return Results.File(retorno.File, "application/pdf");
     }
     
     [Route("RankingBillingPlacesMonth")]
     [HttpGet]
 
-    public async Task<IQueryResult> GetRankingBillingPlacesMonth([FromQuery] GetRankingBillingPlacesMonthQuery query, [FromServices] TollQueryHandler handler)
+    public async Task<IResult> GetRankingBillingPlacesMonth([FromQuery] GetRankingBillingPlacesMonthQuery query, [FromServices] TollQueryHandler handler)
     {
-        return await handler.Handle(query);
+         var result = await handler.Handle(query);
+         var retorno = (GenericResultQuery)result;
+         return Results.File(retorno.File, "application/pdf");
     }
     
     [Route("QuantityVehiclesByPlaces")]
     [HttpGet]
 
-    public async Task<IQueryResult> GetQuantityVehiclesByPlaces([FromQuery] GetQuantityVehiclesByPlacesQuery query, [FromServices] TollQueryHandler handler)
+    public async Task<IResult> GetQuantityVehiclesByPlaces([FromQuery] GetQuantityVehiclesByPlacesQuery query, [FromServices] TollQueryHandler handler)
     {
-        return await handler.Handle(query);
+        var result = await handler.Handle(query);
+        var retorno = (GenericResultQuery)result;
+        return Results.File(retorno.File, "application/pdf");
     }
 
 
