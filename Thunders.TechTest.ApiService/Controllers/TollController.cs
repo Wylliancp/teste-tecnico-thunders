@@ -54,6 +54,30 @@ public class TollController(ILogger<TollController> logger) : ControllerBase
     {
         return await handler.Handle(command);
     }
+    
+    [Route("TotalValueByState")]
+    [HttpGet]
+
+    public async Task<IQueryResult> GetTotalValueByState([FromQuery] GetTotalValueByStateQuery query, [FromServices] TollQueryHandler handler)
+    {
+        return await handler.Handle(query);
+    }
+    
+    [Route("RankingBillingPlacesMonth")]
+    [HttpGet]
+
+    public async Task<IQueryResult> GetRankingBillingPlacesMonth([FromQuery] GetRankingBillingPlacesMonthQuery query, [FromServices] TollQueryHandler handler)
+    {
+        return await handler.Handle(query);
+    }
+    
+    [Route("QuantityVehiclesByPlaces")]
+    [HttpGet]
+
+    public async Task<IQueryResult> GetQuantityVehiclesByPlaces([FromQuery] GetQuantityVehiclesByPlacesQuery query, [FromServices] TollQueryHandler handler)
+    {
+        return await handler.Handle(query);
+    }
 
 
 }

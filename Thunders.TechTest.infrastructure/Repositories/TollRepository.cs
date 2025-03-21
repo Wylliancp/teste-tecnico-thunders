@@ -57,8 +57,8 @@ public class TollRepository : ITollRepository
         return await _context.Tolls.Where(x=> x.dateCreate.Month == month.Month).OrderByDescending(x=> x.County).FirstOrDefaultAsync(cancellationToken);
     }
 
-    public Task<int> QuantityVehiclesByPlaces(string places, CancellationToken cancellationToken = default)
+    public async Task<int> QuantityVehiclesByPlaces(string places, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _context.Tolls.Where(x => x.Place == places).CountAsync(cancellationToken);
     }
 }
