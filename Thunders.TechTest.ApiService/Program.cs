@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Thunders.TechTest.ApiService;
+using Thunders.TechTest.infrastructure;
 using Thunders.TechTest.OutOfBox.Database;
 using Thunders.TechTest.OutOfBox.Queues;
 
@@ -20,7 +21,20 @@ if (features.UseMessageBroker)
 
 if (features.UseEntityFramework)
 {
-    builder.Services.AddSqlServerDbContext<DbContext>(builder.Configuration);
+    // builder.Services.AddDbContext<DefaultContext>((options) =>
+    // {
+    //     options.UseSqlServer(builder.Configuration.GetConnectionString("ThundersTechTestDb"),                    
+    //         b => b.MigrationsAssembly("Thunders.TechTest.infrastructure")
+    //     );
+    // });
+    builder.Services.AddDbContext<DefaultContext>((options) =>
+    {
+        options.UseNpgsql(builder.Configuration.GetConnectionString("ThundersTechTestDbPostgres"),                    
+            b => b.MigrationsAssembly("Thunders.TechTest.infrastructure")
+        );
+    });
+    // builder.Services.AddSqlServerDbContext<DbContext>(builder.Configuration);
+    // builder.Services.AddPostgresDbContext<DefaultContext>(builder.Configuration);
 }
 
 

@@ -16,5 +16,18 @@ namespace Thunders.TechTest.OutOfBox.Database
 
             return services;
         }
+        
+        public static IServiceCollection AddPostgresDbContext<TContext>(this IServiceCollection services, IConfiguration configuration)
+            where TContext : DbContext
+        {
+            services.AddDbContext<TContext>((options) =>
+            {
+                options.UseNpgsql(configuration.GetConnectionString("ThundersTechTestDb"),                    
+                    b => b.MigrationsAssembly("Thunders.TechTest.infrastructure")
+                );
+            });
+
+            return services;
+        }
     }
 }
