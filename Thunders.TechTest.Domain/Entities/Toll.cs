@@ -7,8 +7,7 @@ public class Toll
     public Toll(string place, string city, string state, decimal county, ETypeCar typeCar)
     {
         Id = Guid.NewGuid();
-        DateHour = DateTime.Now.TimeOfDay;
-        dateCreate = DateTime.Now;
+        dateCreate = DateTime.UtcNow;
         Place = place;
         City = city;
         State = state;
@@ -16,28 +15,24 @@ public class Toll
         TypeCar = typeCar;
     }
     
-    public Toll(){}
+    // public Toll(){}
     public Guid Id { get; set; }
-    public TimeSpan DateHour { get; set; }
-    
     public DateTime dateCreate { get; set; }
     public string Place { get; set; }
     public string City { get; set; }
     public string State { get; set; }
     public decimal County { get; set; }
     public ETypeCar TypeCar { get; set; }
-    
     public DateTime DateUpdate { get; set; }
 
     
-    public void Update(Toll toll)
+    public void Update(string place, string city, string state, decimal county, ETypeCar typeCar)
     {
-        DateHour = toll.DateHour;
-        Place = toll.Place;
-        City = toll.City;
-        State = toll.State;
-        County = toll.County;
-        TypeCar = toll.TypeCar;
-        DateUpdate = DateTime.Now;
+        Place = place;
+        City = city;
+        State = state;
+        County = county;
+        TypeCar = typeCar;
+        DateUpdate = DateTime.UtcNow;
     }
 }

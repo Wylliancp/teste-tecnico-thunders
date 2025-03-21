@@ -1,18 +1,35 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Thunders.TechTest.ApiService;
+using Thunders.TechTest.Application.Commands.Toll;
+using Thunders.TechTest.Application.Handlers.Toll;
+using Thunders.TechTest.Domain.Repositories;
 using Thunders.TechTest.infrastructure;
-using Thunders.TechTest.OutOfBox.Database;
+using Thunders.TechTest.infrastructure.Repositories;
 using Thunders.TechTest.OutOfBox.Queues;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 builder.Services.AddControllers();
+builder.Services.AddSwaggerGen();
+
 
 var features = Features.BindFromConfiguration(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddProblemDetails();
+
+//IOC
+builder.Services.AddTransient<TollCommandHandler>();
+builder.Services.AddTransient<TollQueryHandler>();
+
+builder.Services.AddTransient<ITollRepository, TollRepository>();
+
+//Validators Toll
+builder.Services.AddScoped<IValidator<CreateTollCommand>, CreateTollValidator>();
+builder.Services.AddScoped<IValidator<UpdateTollCommand>, UpdateTollValidator>();
+builder.Services.AddScoped<IValidator<DeleteTollCommand>, DeleteTollValidator>();
 
 if (features.UseMessageBroker)
 {
@@ -33,12 +50,16 @@ if (features.UseEntityFramework)
             b => b.MigrationsAssembly("Thunders.TechTest.infrastructure")
         );
     });
-    // builder.Services.AddSqlServerDbContext<DbContext>(builder.Configuration);
-    // builder.Services.AddPostgresDbContext<DefaultContext>(builder.Configuration);
 }
 
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler();
